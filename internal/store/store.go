@@ -3,7 +3,7 @@ package store
 import (
 	"context"
 
-	"github.com/zhengda-lu/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/domain"
 )
 
 // Store defines the persistence interface for the application.

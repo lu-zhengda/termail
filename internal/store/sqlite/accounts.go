@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/zhengda-lu/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/domain"
 )
 
 func (s *DB) CreateAccount(ctx context.Context, acct *domain.Account) error {

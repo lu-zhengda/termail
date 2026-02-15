@@ -1,4 +1,4 @@
-module github.com/zhengda-lu/termail
+module github.com/lu-zhengda/termail
 
 go 1.25.0
 

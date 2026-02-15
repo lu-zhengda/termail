@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/zhengda-lu/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/domain"
 )
 
 // Messages emitted by searchModel.

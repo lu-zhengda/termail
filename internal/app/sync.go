@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/zhengda-lu/termail/internal/provider"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/provider"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 // SyncService orchestrates synchronization between an email provider and the

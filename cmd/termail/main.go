@@ -1,6 +1,6 @@
 package main
 
-import "github.com/zhengda-lu/termail/internal/cli"
+import "github.com/lu-zhengda/termail/internal/cli"
 
 func main() {
 	cli.Execute()

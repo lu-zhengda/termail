@@ -7,8 +7,8 @@ import (
 	"text/tabwriter"
 
 	"github.com/spf13/cobra"
-	"github.com/zhengda-lu/termail/internal/store"
-	"github.com/zhengda-lu/termail/internal/store/sqlite"
+	"github.com/lu-zhengda/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/store/sqlite"
 )
 
 func newListCmd() *cobra.Command {

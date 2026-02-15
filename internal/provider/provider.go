@@ -3,7 +3,7 @@ package provider
 import (
 	"context"
 
-	"github.com/zhengda-lu/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/domain"
 )
 
 type ListOptions struct {

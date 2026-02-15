@@ -2,30 +2,52 @@
 
 A terminal-based email client with Gmail support. Read, compose, reply, search, and manage emails from the command line or an interactive TUI.
 
-## Features
-
-- Interactive TUI with sidebar navigation, threaded view, and compose/reply/forward
-- Full CLI for scripting and automation (every TUI action has a CLI equivalent)
-- Multi-account support with per-session switching
-- Full-text search via SQLite FTS5
-- OAuth2 authentication with OS keyring token storage
-- Incremental sync via Gmail History API
-
 ## Install
+
+### Homebrew (macOS)
+
+```bash
+brew install lu-zhengda/tap/termail
+```
+
+### Build from source
 
 Requires Go 1.25+ and CGO (for SQLite).
 
 ```bash
-CGO_ENABLED=1 go install -tags "fts5" github.com/zhengda-lu/termail/cmd/termail@latest
-```
-
-Or build from source:
-
-```bash
 git clone https://github.com/lu-zhengda/termail.git
 cd termail
-CGO_ENABLED=1 go build -tags "fts5" -o termail ./cmd/termail
+CGO_ENABLED=1 go build -tags fts5 -o termail ./cmd/termail
 cp termail ~/.local/bin/  # or wherever you prefer
+```
+
+## Setup
+
+You need your own Google Cloud OAuth credentials:
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a project, enable the Gmail API
+3. Create OAuth credentials (Desktop application type)
+4. Provide them via config file or environment variables
+
+### Option A: Config file
+
+`~/.config/termail/config.toml`
+
+```toml
+[accounts]
+default = "user@gmail.com"
+
+[gmail]
+client_id = "your-client-id.apps.googleusercontent.com"
+client_secret = "your-client-secret"
+```
+
+### Option B: Environment variables
+
+```bash
+export GMAIL_CLIENT_ID="your-client-id.apps.googleusercontent.com"
+export GMAIL_CLIENT_SECRET="your-client-secret"
 ```
 
 ## Quick Start
@@ -104,34 +126,12 @@ termail account remove user@gmail.com
 termail sync --account user@gmail.com
 ```
 
-## Setup
+## Configuration
 
-You need your own Google Cloud OAuth credentials:
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Create a project, enable the Gmail API
-3. Create OAuth credentials (Desktop application type)
-4. Provide them via config file or environment variables
-
-### Option A: Config file
-
-Config file: `~/.config/termail/config.toml`
-
-```toml
-[accounts]
-default = "user@gmail.com"
-
-[gmail]
-client_id = "your-client-id.apps.googleusercontent.com"
-client_secret = "your-client-secret"
-```
-
-### Option B: Environment variables
-
-```bash
-export GMAIL_CLIENT_ID="your-client-id.apps.googleusercontent.com"
-export GMAIL_CLIENT_SECRET="your-client-secret"
-```
+**Data storage:**
+- Database: `~/.local/share/termail/termail.db` (SQLite with FTS5)
+- Tokens: OS keyring (macOS Keychain / Linux secret-service / Windows Credential Manager)
+- Config: `~/.config/termail/config.toml`
 
 ## Architecture
 
@@ -149,19 +149,6 @@ internal/
   app/               Sync service (initial + incremental)
 ```
 
-**Data storage:**
-- Database: `~/.local/share/termail/termail.db` (SQLite)
-- Tokens: OS keyring (macOS Keychain / Linux secret-service / Windows Credential Manager)
-- Config: `~/.config/termail/config.toml`
-
-## Tech Stack
-
-- [Bubble Tea](https://github.com/charmbracelet/bubbletea) + [Lip Gloss](https://github.com/charmbracelet/lipgloss) for the TUI
-- [Cobra](https://github.com/spf13/cobra) for CLI
-- [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) with FTS5 for storage and search
-- [zalando/go-keyring](https://github.com/zalando/go-keyring) for token storage
-- [Google Gmail API](https://developers.google.com/gmail/api) via `google.golang.org/api`
-
 ## License
 
-Private repository.
+[MIT](LICENSE)

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zhengda-lu/termail/internal/domain"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 func seedAccount(t *testing.T, db *DB) {

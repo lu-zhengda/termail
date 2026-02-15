@@ -7,9 +7,9 @@ import (
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/zhengda-lu/termail/internal/domain"
-	"github.com/zhengda-lu/termail/internal/provider"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/provider"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 type pane int

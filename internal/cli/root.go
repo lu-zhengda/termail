@@ -7,24 +7,42 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/zhengda-lu/termail/internal/config"
-	"github.com/zhengda-lu/termail/internal/provider"
-	"github.com/zhengda-lu/termail/internal/provider/gmail"
-	"github.com/zhengda-lu/termail/internal/store"
-	"github.com/zhengda-lu/termail/internal/store/sqlite"
-	"github.com/zhengda-lu/termail/internal/tui"
+	"github.com/lu-zhengda/termail/internal/config"
+	"github.com/lu-zhengda/termail/internal/provider"
+	"github.com/lu-zhengda/termail/internal/provider/gmail"
+	"github.com/lu-zhengda/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/store/sqlite"
+	"github.com/lu-zhengda/termail/internal/tui"
 )
 
-var cfgFile string
+var (
+	// version is set via ldflags at build time.
+	version = "dev"
+	cfgFile string
+)
 
 func NewRootCmd() *cobra.Command {
 	var accountFlag string
 
 	root := &cobra.Command{
-		Use:   "termail",
-		Short: "Terminal email client",
-		Long:  "A terminal-based email client with Gmail support.",
+		Use:     "termail",
+		Short:   "Terminal email client",
+		Long:    "A terminal-based email client with Gmail support.",
+		Version: version,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if shell, _ := cmd.Flags().GetString("generate-completion"); shell != "" {
+				switch shell {
+				case "bash":
+					return cmd.Root().GenBashCompletion(os.Stdout)
+				case "zsh":
+					return cmd.Root().GenZshCompletion(os.Stdout)
+				case "fish":
+					return cmd.Root().GenFishCompletion(os.Stdout, true)
+				default:
+					return fmt.Errorf("unsupported shell: %s (use bash, zsh, or fish)", shell)
+				}
+			}
+
 			db, err := openDB()
 			if err != nil {
 				return err
@@ -65,6 +83,10 @@ func NewRootCmd() *cobra.Command {
 			return tui.Run(db, p, accountID, accounts, factory)
 		},
 	}
+	root.SetVersionTemplate(fmt.Sprintf("termail %s\n", version))
+	root.CompletionOptions.DisableDefaultCmd = true
+	root.Flags().String("generate-completion", "", "Generate shell completion (bash, zsh, fish)")
+	root.Flags().MarkHidden("generate-completion")
 	root.PersistentFlags().StringVar(&cfgFile, "config", "", "config file path")
 	root.Flags().StringVar(&accountFlag, "account", "", "account ID to use (defaults to config default or first account)")
 	root.AddCommand(newAccountCmd())

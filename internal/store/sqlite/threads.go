@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zhengda-lu/termail/internal/domain"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 // GetThread retrieves a thread by ID, including all its messages ordered by date ascending.

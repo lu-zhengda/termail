@@ -13,3 +13,7 @@ Thumbs.db
 
 # Test
 coverage.out
+
+# Release
+dist/
+completions/

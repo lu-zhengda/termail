@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/zhengda-lu/termail/internal/domain"
-	"github.com/zhengda-lu/termail/internal/provider"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/provider"
+	"github.com/lu-zhengda/termail/internal/store"
 	"golang.org/x/oauth2"
 	gmailapi "google.golang.org/api/gmail/v1"
 	"google.golang.org/api/option"

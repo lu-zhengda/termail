@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zhengda-lu/termail/internal/domain"
-	"github.com/zhengda-lu/termail/internal/provider/gmail"
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/provider/gmail"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 func newComposeCmd() *cobra.Command {

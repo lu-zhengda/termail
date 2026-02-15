@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zhengda-lu/termail/internal/store"
+	"github.com/lu-zhengda/termail/internal/store"
 )
 
 // GetSyncState retrieves the sync state for an account.

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zhengda-lu/termail/internal/domain"
+	"github.com/lu-zhengda/termail/internal/domain"
 	gmailapi "google.golang.org/api/gmail/v1"
 )
 
