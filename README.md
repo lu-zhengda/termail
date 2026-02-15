@@ -180,6 +180,10 @@ internal/
   app/               Sync service (initial + incremental)
 ```
 
+## Claude Code
+
+termail is part of the [macos-toolkit](https://github.com/lu-zhengda/macos-toolkit) Claude Code plugin. Install the plugin to let Claude read, compose, search, and manage your email using natural language.
+
 ## License
 
 [MIT](LICENSE)

@@ -17,3 +17,6 @@ coverage.out
 # Release
 dist/
 completions/
+
+# Design plans
+docs/plans/
