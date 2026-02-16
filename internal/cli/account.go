@@ -97,6 +97,10 @@ func newAccountAddCmd() *cobra.Command {
 				return fmt.Errorf("failed to store account: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "add", Email: email})
+			}
+
 			fmt.Printf("Account added: %s\n", email)
 			return nil
 		},
@@ -120,6 +124,10 @@ func newAccountListCmd() *cobra.Command {
 			accounts, err := db.ListAccounts(cmd.Context())
 			if err != nil {
 				return fmt.Errorf("failed to list accounts: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(toJSONAccounts(accounts))
 			}
 
 			if len(accounts) == 0 {
@@ -183,6 +191,10 @@ func newAccountRemoveCmd() *cobra.Command {
 				fmt.Fprintf(os.Stderr, "Warning: could not remove token from keyring: %v\n", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "remove", Email: target.Email})
+			}
+
 			fmt.Printf("Account removed: %s\n", target.Email)
 			return nil
 		},
@@ -225,9 +237,15 @@ func newSyncCmd() *cobra.Command {
 			ctx := cmd.Context()
 			svc := app.NewSyncService(db, provider, accountID)
 
-			fmt.Printf("Syncing account %s...\n", accountID)
+			if !jsonFlag {
+				fmt.Printf("Syncing account %s...\n", accountID)
+			}
 			if err := svc.IncrementalSync(ctx); err != nil {
 				return fmt.Errorf("failed to sync: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "sync", AccountID: accountID})
 			}
 
 			fmt.Println("Sync complete.")

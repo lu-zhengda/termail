@@ -53,6 +53,10 @@ func newComposeCmd() *cobra.Command {
 				return fmt.Errorf("failed to send email: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "compose"})
+			}
+
 			fmt.Println("Email sent.")
 			return nil
 		},
@@ -126,6 +130,10 @@ func newReplyCmd() *cobra.Command {
 				return fmt.Errorf("failed to send reply: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "reply", MessageID: messageID})
+			}
+
 			fmt.Println("Reply sent.")
 			return nil
 		},
@@ -187,6 +195,10 @@ func newForwardCmd() *cobra.Command {
 				return fmt.Errorf("failed to forward: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "forward", MessageID: messageID})
+			}
+
 			fmt.Println("Email forwarded.")
 			return nil
 		},
@@ -215,6 +227,10 @@ func newArchiveCmd() *cobra.Command {
 				return fmt.Errorf("failed to archive: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "archive", MessageID: args[0]})
+			}
+
 			fmt.Println("Email archived.")
 			return nil
 		},
@@ -239,6 +255,10 @@ func newTrashCmd() *cobra.Command {
 
 			if err := provider.TrashMessage(cmd.Context(), args[0]); err != nil {
 				return fmt.Errorf("failed to trash: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "trash", MessageID: args[0]})
 			}
 
 			fmt.Println("Email moved to trash.")
@@ -273,6 +293,14 @@ func newStarCmd() *cobra.Command {
 
 			if err := provider.ModifyLabels(cmd.Context(), args[0], add, remove); err != nil {
 				return fmt.Errorf("failed to update star: %w", err)
+			}
+
+			if jsonFlag {
+				action := "star"
+				if removeFlag {
+					action = "unstar"
+				}
+				return printJSON(jsonAction{OK: true, Action: action, MessageID: args[0]})
 			}
 
 			if removeFlag {
@@ -321,6 +349,14 @@ func newMarkReadCmd() *cobra.Command {
 				return fmt.Errorf("failed to sync read status: %w", err)
 			}
 
+			if jsonFlag {
+				action := "mark-read"
+				if !read {
+					action = "mark-unread"
+				}
+				return printJSON(jsonAction{OK: true, Action: action, MessageID: args[0]})
+			}
+
 			if read {
 				fmt.Println("Marked as read.")
 			} else {
@@ -365,6 +401,10 @@ func newLabelModifyCmd() *cobra.Command {
 
 			if err := provider.ModifyLabels(cmd.Context(), args[0], add, remove); err != nil {
 				return fmt.Errorf("failed to modify labels: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(jsonAction{OK: true, Action: "label-modify", MessageID: args[0]})
 			}
 
 			fmt.Println("Labels updated.")

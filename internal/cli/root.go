@@ -19,6 +19,9 @@ var (
 	// version is set via ldflags at build time.
 	version = "dev"
 	cfgFile string
+
+	// jsonFlag enables JSON output for all commands.
+	jsonFlag bool
 )
 
 func NewRootCmd() *cobra.Command {
@@ -88,6 +91,7 @@ func NewRootCmd() *cobra.Command {
 	root.Flags().String("generate-completion", "", "Generate shell completion (bash, zsh, fish)")
 	root.Flags().MarkHidden("generate-completion")
 	root.PersistentFlags().StringVar(&cfgFile, "config", "", "config file path")
+	root.PersistentFlags().BoolVar(&jsonFlag, "json", false, "output in JSON format")
 	root.Flags().StringVar(&accountFlag, "account", "", "account ID to use (defaults to config default or first account)")
 	root.AddCommand(newAccountCmd())
 	root.AddCommand(newSyncCmd())

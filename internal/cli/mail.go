@@ -41,6 +41,10 @@ func newListCmd() *cobra.Command {
 				return fmt.Errorf("failed to list threads: %w", err)
 			}
 
+			if jsonFlag {
+				return printJSON(toJSONThreads(threads))
+			}
+
 			if len(threads) == 0 {
 				fmt.Println("No messages found.")
 				return nil
@@ -105,6 +109,10 @@ func newReadCmd() *cobra.Command {
 			thread, err := db.GetThread(cmd.Context(), threadID, accountID)
 			if err != nil {
 				return fmt.Errorf("failed to get thread: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(toJSONThreadDetail(thread))
 			}
 
 			fmt.Printf("Subject: %s\n", thread.Subject)
@@ -178,14 +186,18 @@ func newSearchCmd() *cobra.Command {
 				return fmt.Errorf("failed to search: %w", err)
 			}
 
-			if len(emails) == 0 {
-				fmt.Println("No results found.")
-				return nil
-			}
-
 			shown := emails
 			if limitFlag > 0 && len(shown) > limitFlag {
 				shown = shown[:limitFlag]
+			}
+
+			if jsonFlag {
+				return printJSON(toJSONEmails(shown))
+			}
+
+			if len(shown) == 0 {
+				fmt.Println("No results found.")
+				return nil
 			}
 
 			w := tabwriter.NewWriter(os.Stdout, 0, 4, 2, ' ', 0)
@@ -238,6 +250,10 @@ func newLabelsCmd() *cobra.Command {
 			labels, err := db.ListLabels(cmd.Context(), accountID)
 			if err != nil {
 				return fmt.Errorf("failed to list labels: %w", err)
+			}
+
+			if jsonFlag {
+				return printJSON(toJSONLabels(labels))
 			}
 
 			if len(labels) == 0 {
